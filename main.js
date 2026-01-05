@@ -1,4 +1,5 @@
 const glados = async () => {
+  console.log("开始签到");
   const notice = []
   if (!process.env.GLADOS) return
   for (const cookie of String(process.env.GLADOS).split('\n')) {
@@ -33,6 +34,7 @@ const glados = async () => {
       )
     }
   }
+  console.log("签到结果:"+notice);
   return notice
 }
 
