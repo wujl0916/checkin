@@ -70,6 +70,16 @@ const notify = async (notice) => {
             template: 'markdown',
           }),
         })
+      } else if (option.startsWith('serverchan:')) {
+        await fetch(`https://sctapi.ftqq.com/`+option.split(':')[1]+`.send`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            title: notice[0],
+            content: notice.join('<br>'),
+            template: 'markdown',
+          }),
+        })
       } else if (option.startsWith('qyweixin:')) {
         const qyweixinToken = option.split(':')[1]
         const qyweixinNotifyRebotUrl = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=' + qyweixinToken;
