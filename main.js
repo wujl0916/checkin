@@ -75,7 +75,7 @@ const notify = async (notice) => {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
-            title: notice[0],
+            title: notice.join('-'),
             content: notice.join('<br>'),
             template: 'markdown',
           }),
