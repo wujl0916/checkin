@@ -43,6 +43,9 @@ const notify = async (notice) => {
   if (notice[0] === 'Checkin OK') {
     return;
   }
+  if (notic.join('').includes('Checkin Repeats')) {
+    return;
+  }
   for (const option of String(process.env.NOTIFY).split('\n')) {
     if (!option) continue
     try {
