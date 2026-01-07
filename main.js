@@ -40,6 +40,9 @@ const glados = async () => {
 
 const notify = async (notice) => {
   if (!process.env.NOTIFY || !notice) return
+  if (notice[0] === 'Checkin OK') {
+    return;
+  }
   for (const option of String(process.env.NOTIFY).split('\n')) {
     if (!option) continue
     try {
