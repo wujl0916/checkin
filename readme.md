@@ -36,4 +36,4 @@ GitHub Actions 实现 [GLaDOS][glados] 自动签到
 [pushplus]: https://www.pushplus.plus/
 [wxpusher]: https://wxpusher.zjiecode.com/
 ---
-test1
+test2
