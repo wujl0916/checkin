@@ -82,9 +82,8 @@ const notify = async (notice) => {
   // 3. 动态生成标题
   let title = 'GLaDOS 签到通知';
   if (hasReturnTomorrowMessage) {
-    title = 'GLaDOS重复签到测试通知';
     // 如果包含"Return tomorrow for more points"，不发送通知
-    // return;
+    return;
   } else if (hasError) {
     title = 'GLaDOS 签到失败告警 (多账号部分或全部异常)';
   } else if (hasLowDays) {
