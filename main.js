@@ -63,6 +63,7 @@ const glados = async () => {
   return notice;
 }
 
+
 const notify = async (notice) => {
   if (!process.env.NOTIFY || !notice || notice.length === 0) return;
 
@@ -75,17 +76,24 @@ const notify = async (notice) => {
   // 2. 检查是否有任意账号签到报错
   const hasError = notice.some(item => String(item).includes('Checkin Error'));
 
+  // 3. 检查是否有任意账号包含"Return tomorrow for more points"（明天再来拿更多积分）
+  const hasReturnTomorrowMessage = notice.some(item => String(item).includes('Return tomorrow for more points'));
+
   // 3. 动态生成标题
   let title = 'GLaDOS 签到通知';
-  if (hasError) {
+  if (hasReturnTomorrowMessage) {
+    title = 'GLaDOS重复签到测试通知';
+    // 如果包含"Return tomorrow for more points"，不发送通知
+    // return;
+  } else if (hasError) {
     title = 'GLaDOS 签到失败告警 (多账号部分或全部异常)';
   } else if (hasLowDays) {
-    title = 'GLaDOS 余额不足30天告警';
+    title = 'GLaDOS 余额不足 30 天告警';
   } else {
     title = 'GLaDOS 签到成功';
   }
-
-  // 4. 免打扰逻辑：所有账号都【没有报错】且【天数均>=30天】时，静默不发通知
+  
+  // 4. 免打扰逻辑：所有账号都【没有报错】且【天数均>=30 天】时，静默不发通知
   if (!hasLowDays && !hasError) {
     return;
   }
