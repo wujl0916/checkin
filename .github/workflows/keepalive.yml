@@ -1,21 +1,25 @@
 name: Keepalive Workflow
 
 on:
-  workflow_dispatch:
-  push:
   schedule:
-    - cron: 5 0 * * *
+    - cron: "0 0 * * *"  # 每天 UTC 0点自动运行
+  workflow_dispatch:     # 支持手动触发测试
+
+permissions:
+  contents: write        # 仅需代码写入权限
 
 jobs:
-  keepalive-job:
-    name: Keepalive Job
+  keepalive:
     runs-on: ubuntu-latest
-    permissions:
-      actions: write   # 授予 Actions 写入权限
-      contents: write  # 授予仓库内容写入权限（用于调用API或提交代码）
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Run Keepalive Workflow
-        uses: gautamkrishnar/keepalive-workflow@v2
+        with:
+          fetch-depth: 0
+
+      - name: Create empty commit to keep alive
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: keepalive [skip ci]"
+          git push
