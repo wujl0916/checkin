@@ -1,0 +1,19 @@
+name: Keepalive Workflow
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # 每天午夜（UTC时间）自动运行一次
+
+jobs:
+  keepalive-job:
+    name: Keepalive Job
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write   # 授予 Actions 写入权限
+      contents: write  # 授予仓库内容写入权限（用于调用API或提交代码）
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Run Keepalive Workflow
+        uses: gautamkrishnar/keepalive-workflow@v2
