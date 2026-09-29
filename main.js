@@ -10,16 +10,19 @@ const glados = async () => {
     const line = lines[i].trim();
     let accountName = `账号 ${i + 1}`; // 默认名称
     let cookie = line;               // 默认全量当做 cookie
-
-    // 解析 "账户名称 cookie" 格式
-    const firstSpaceIndex = line.indexOf(' ');
-    if (firstSpaceIndex !== -1) {
-      const potentialName = line.substring(0, firstSpaceIndex);
-      // 简单判断一下：如果空格前的字符串不包含 '=' 和 ';'，那大概率是你设置的账户名
-      if (!potentialName.includes('=') && !potentialName.includes(';')) {
-        accountName = potentialName;
-        // 剩下的部分全部作为 cookie
-        cookie = line.substring(firstSpaceIndex + 1).trim();
+    let userAgent= 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0)';
+  
+    const sepIndex = line.indexOf('|');
+    if (sepIndex !== -1) {
+      accountName = line.substring(0, sepIndex);
+      // 剩下的部分按 | 分隔：cookie|ua
+      const rest = line.substring(sepIndex + 1);
+      // 也支持不配置ua
+      cookie = rest;
+      const secondSepIndex = rest.indexOf('|');
+      if (secondSepIndex !== -1) {
+        cookie = rest.substring(0, secondSepIndex).trim();
+        userAgent = rest.substring(secondSepIndex + 1).trim();
       }
     }
 
@@ -27,7 +30,7 @@ const glados = async () => {
       const common = {
         'cookie': cookie,
         'origin': 'https://glados.cloud',
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15',
+        'user-agent': userAgent,
       };
       const action = await fetch('https://glados.cloud/api/user/checkin', {
         method: 'POST',
