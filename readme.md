@@ -16,7 +16,7 @@ GitHub Actions 实现 [GLaDOS][glados] 自动签到
 
 ## 高级功能
 
-1. 如有多个帐号, 可以写为多行 Secret `GLADOS`, 每行写一个 Cookie
+1. 如有多个帐号, 可以写为多行 Secret `GLADOS`, 每行格式：name|cookie|ua
 
 1. 如需修改时间, 可以修改文件 [run.yml](.github/workflows/run.yml#L7) 中的 `cron` 参数, 格式可参考 [crontab]
 
@@ -36,5 +36,4 @@ GitHub Actions 实现 [GLaDOS][glados] 自动签到
 [pushplus]: https://www.pushplus.plus/
 [wxpusher]: https://wxpusher.zjiecode.com/
 ---
-test7
 
